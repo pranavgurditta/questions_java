@@ -1,0 +1,26 @@
+/* QUESTION
+Given a non negative integer number num. For every numbers i 
+in the range 0 ≤ i ≤ num calculate the number of 1's in their binary representation and return them as an array.
+*/
+
+class Solution {
+    public int[] countBits(int num) {
+        int binary_representation_1[]= new int[num+1];
+        for(int i=0;i<=num;i++){
+            binary_representation_1[i]=hammingWeight(i); 
+         
+        }
+        return binary_representation_1;
+    }
+    
+        int hammingWeight(int num_count){
+            /* this function is there to count the number of 1 bit in the binary representation of an integer named num_count */
+            if(num_count==0){
+                return 0;
+            }
+            
+            return (1+(hammingWeight(num_count & (num_count-1) )));
+        }
+        
+
+}
