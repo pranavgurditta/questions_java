@@ -15,22 +15,33 @@ Output: 1
 Note:
 
 Your algorithm should run in O(n) time and uses constant extra space.
-*/
 
+
+x  if(A[i] == i+1 || A[i] <= 0 || A[i] > A.length) i++;
+            else if(A[A[i]-1] != A[i]) swap(A, i, A[i]-1);
+            else i++;
+
+*/
 class Solution {
     public int firstMissingPositive(int[] nums) {
         
         for(int i=0;i<nums.length;i++)
         {
-          while(nums[i]>0 && nums[i]<nums.length && nums[i]!=nums[nums[i]-1])
-          {System.out.println(nums[i]+" "+nums[nums[i]-1]);
+          if(nums[i]>0 && nums[i]<nums.length && nums[i]!=nums[nums[i]-1])
+          {   
+              System.out.println(nums[i]+" "+nums[nums[i]-1]);
               int t=nums[nums[i]-1];
               nums[nums[i]-1]=nums[i];
               nums[i]=t;
+              i--;
              
           }
         
         }
+        
+        for(int i=0;i<nums.length;++i)
+            System.out.print(nums[i]+",");
+        
         for(int i=0;i<nums.length;++i)
             if(nums[i]!=i+1)
                 return i+1;
