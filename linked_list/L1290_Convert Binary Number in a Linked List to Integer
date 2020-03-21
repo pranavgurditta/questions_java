@@ -1,0 +1,23 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+
+/* With each bit encountered previous result is multiplied by 2 and bit is added*/
+public class Solution{
+
+public int getDecimalValue(ListNode head) {
+    int number=0;
+    while(head!=null)
+    {
+        number<<=1;
+        number+=head.val;
+        head=head.next;
+    }
+    return number;
+}
+}
