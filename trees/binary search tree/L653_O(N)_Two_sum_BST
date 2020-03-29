@@ -1,0 +1,47 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    List<Integer> inorder;
+    public boolean findTarget(TreeNode root, int k) {
+        if(root==null || (root.left==null && root.right==null))
+            return false;
+        
+        inorder=new ArrayList<Integer>();
+        inorderTrav(root);
+        int front=0;
+        int last=inorder.size()-1;
+        
+        while(front<last)
+        {
+            int sum=inorder.get(front)+inorder.get(last);
+            
+            if(sum==k)
+                return true;
+            if(sum<=k)
+                front++;
+            else
+                last--;
+
+        }
+        return false;
+    }
+        
+    
+    public  void inorderTrav(TreeNode root)
+    {
+       if(root==null)
+           return;
+        
+        inorderTrav(root.left);
+        inorder.add(root.val);
+        inorderTrav(root.right);
+        
+    }
+}
