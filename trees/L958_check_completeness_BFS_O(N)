@@ -1,0 +1,89 @@
+/**
+958. Check Completeness of a Binary Tree
+Medium
+
+617
+
+13
+
+Add to List
+
+Share
+Given a binary tree, determine if it is a complete binary tree.
+
+Definition of a complete binary tree from Wikipedia:
+In a complete binary tree every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
+
+ 
+
+Example 1:
+
+
+
+Input: [1,2,3,4,5,6]
+Output: true
+Explanation: Every level before the last is full (ie. levels with node-values {1} and {2, 3}), and all nodes in the last level ({4, 5, 6}) are as far left as possible.
+Example 2:
+
+
+
+Input: [1,2,3,4,5,null,7]
+Output: false
+Explanation: The node with value 7 isn't as far left as possible.
+ 
+Note:
+
+The tree will have between 1 and 100 nodes.
+
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isCompleteTree(TreeNode root) {
+     
+        if(root==null)
+            return true;
+        
+        ArrayList<TreeNode> check=new ArrayList<TreeNode>();
+        Queue<TreeNode> queue=new LinkedList<TreeNode>();
+        queue.offer(root);
+        
+        while(!queue.isEmpty())
+        {
+            int nodes_at_level=queue.size();
+            
+            for(int i=0;i<nodes_at_level;i++)
+            {
+                TreeNode temp=queue.poll();
+                check.add(temp.left);
+                check.add(temp.right);
+        
+                if(temp.left!=null)
+                    queue.offer(temp.left);
+                
+                if(temp.right!=null)
+                    queue.offer(temp.right);
+                
+            }
+            if(check.size()!=queue.size())
+            {
+                int size=queue.size();
+                 for(int i=0;i<size;i++)
+                {
+                    TreeNode temp=queue.poll();
+                    if(check.get(i)!=temp || temp.left!=null || temp.right!=null)
+                    {
+                        return false;
+                    }
+                }
+            }
+            check.removeAll(check);
+        }
+        return true;
+    }
+}
