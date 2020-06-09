@@ -1,0 +1,124 @@
+import java.util.*;
+class LIS{
+    public static void main(String[] args)
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter the length of the array");
+        
+        int length=sc.nextInt();
+        int arr[]=new int[length];
+        System.out.println("Enter the elements of the array");
+        for(int i=0;i<length;i++)
+            arr[i]=sc.nextInt();
+        
+        LIS obj=new LIS();
+        System.out.println(obj.LIS_Brute_Force_Wrapper(arr));
+        System.out.println(obj.LIS_Recursion_Memo_Wrapper(arr));
+        
+        System.out.println(obj.lengthOfLIS_DP(arr));
+        System.out.println(obj.lengthOfLIS_LOG_N(arr));
+    }
+    
+    public int LIS_Brute_Force_Wrapper(int[] nums)
+    {
+        return LIS_Brute_Force(nums,Integer.MIN_VALUE,0);
+    }
+    public int LIS_Brute_Force(int[] nums,int prev,int curpos)
+    {
+        
+        if(curpos==nums.length)
+            return 0;
+            
+        int taken=0;
+        
+        if(nums[curpos]>prev)
+            taken=1+LIS_Brute_Force(nums,curpos,curpos+1);
+        
+        int not_taken=LIS_Brute_Force(nums,prev,curpos+1);
+        
+        return Math.max(taken,not_taken);
+        
+    }
+    
+    
+    public int LIS_Recursion_Memo_Wrapper(int[] nums)
+    {
+        int memo[][]=new int[nums.length+1][nums.length];
+        for(int[] temp:memo)
+            Arrays.fill(temp,-1);
+        return LIS_Recursion_Memo(nums,-1,0,memo);
+        
+    }
+     public int LIS_Recursion_Memo(int[] nums,int prev,int curpos,int[][] memo)
+    {
+        
+        if(curpos==nums.length)
+            return 0;
+        
+        if(memo[prev+1][curpos]>=0)
+            return memo[prev+1][curpos];
+            
+        int taken=0;
+        
+        if(prev<0 || nums[curpos]>nums[prev])
+            taken=1+LIS_Recursion_Memo(nums,curpos,curpos+1,memo);
+        
+        int not_taken=LIS_Recursion_Memo(nums,prev,curpos+1,memo);
+        
+        memo[prev+1][curpos]=Math.max(taken,not_taken);
+       
+        
+        return memo[prev+1][curpos];
+        
+    }
+    
+  
+    public int lengthOfLIS_DP(int[] nums) {
+     
+    // lis[i] = 1+ max (lis[j]) where 0<i<j and arr[i]<arr[j]
+    // lis[i]=1 ; if no j<i for which arr[i]<arr[j]
+        if(nums.length==0)
+            return 0;
+        int max=1;
+        int lis[]=new int[nums.length];
+        for(int i=0;i<nums.length;i++)
+            lis[i]=1;
+        
+        for(int i=1;i<nums.length;i++)
+        {
+            for(int j=0;j<i;j++)
+            {
+                if(nums[i]>nums[j] && lis[i]<lis[j]+1)
+                    lis[i]=lis[j]+1;
+                
+            }
+            if(max<lis[i])
+                max=lis[i];
+        }
+        return max;
+   }
+   
+   public int lengthOfLIS_LOG_N(int[] nums)
+   {
+       int[] dp=new int[nums.length];
+       
+       int len=0;
+       
+       for(int num:nums)
+       {
+           int i=Arrays.binarySearch(dp,0,len,num);
+           if(i<0)
+                i=-(i+1);
+                
+           dp[i]=num;
+           if(i==len)   
+                len++;
+       }
+       return len;
+   }
+        
+                
+
+    
+    
+}
