@@ -1,0 +1,117 @@
+import java.util.*;
+class Edit_Distance{
+    public static void main(String[] args)
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter first string");
+        String str1=sc.next();
+        
+        System.out.println("Enter second string");
+        String str2=sc.next();
+        int m=str1.length();
+        int n=str2.length();
+        Edit_Distance obj=new Edit_Distance();
+        System.out.println("Edit distance using recursion is "+obj.EditDistance_Recursion_Brute_Force(str1,str2,m,n));
+        
+        System.out.println("Edit distance using recursion with memoization is "+obj.EditDistance_Recursion_Memoization_Wrapper(str1,str2,m,n));
+        System.out.println("Edit distance using dynamic programming is "+obj.EditDistance_DP(str1,str2,m,n));
+        System.out.println("Edit distance using dynamic programming and 1D array is "+obj.EditDistance_DP_1D(str1,str2,m,n));
+        
+        
+    }
+    
+    public int EditDistance_Recursion_Brute_Force(String str1,String str2,int m,int n)
+    {
+        if(m==0)
+            return n;
+        if(n==0)
+            return m;
+            
+        if(str1.charAt(m-1)==str2.charAt(n-1))
+            return EditDistance_Recursion_Brute_Force(str1,str2,m-1,n-1);
+        else
+            return 1+Math.min( EditDistance_Recursion_Brute_Force(str1,str2,m,n-1),
+                            Math.min(EditDistance_Recursion_Brute_Force(str1,str2,m-1,n),
+                            EditDistance_Recursion_Brute_Force(str1,str2,m-1,n-1)));
+    }
+    public int EditDistance_Recursion_Memoization_Wrapper(String str1,String str2,int m,int n)
+    {
+        int[][] memo=new int[m+1][n+1];
+        for(int[] row:memo)
+            Arrays.fill(row,-1);
+        return EditDistance_Recursion_Memoization(str1,str2,m,n,memo);
+  
+    }
+    
+    public int EditDistance_Recursion_Memoization(String str1,String str2,int m,int n,int[][] memo)
+    {
+       
+        if(m==0)
+            return n;
+        if(n==0)
+            return m;
+        
+         if(memo[m-1][n-1]!=-1)
+            return memo[m-1][n-1];
+            
+        if(str1.charAt(m-1)==str2.charAt(n-1))
+            memo[m-1][n-1]=EditDistance_Recursion_Memoization(str1,str2,m-1,n-1,memo);
+        else
+            memo[m-1][n-1]= 1+Math.min(EditDistance_Recursion_Memoization(str1,str2,m,n-1,memo),
+            Math.min(EditDistance_Recursion_Memoization(str1,str2,m-1,n,memo),
+            EditDistance_Recursion_Memoization(str1,str2,m-1,n-1,memo)));
+              
+        return memo[m-1][n-1];
+    }
+    
+    public int EditDistance_DP(String str1,String str2,int m,int n)
+    {
+       int[][] dp=new int[m+1][n+1];
+      
+        for(int i=0;i<=m;i++)
+        {
+            for(int j=0;j<=n;j++)
+            {
+                if(i==0)
+                    dp[i][j]=j;
+                    
+                else if(j==0)
+                    dp[i][j]=i;
+                    
+                else if(str1.charAt(i-1) == str2.charAt(j-1))
+                    dp[i][j]=dp[i-1][j-1];
+                else
+                    dp[i][j]= 1+Math.min(dp[i][j-1],Math.min(dp[i-1][j],dp[i-1][j-1]));
+            }
+        }
+        return dp[m][n];
+    }
+    
+    
+     public int EditDistance_DP_1D(String str1,String str2,int m,int n)
+    {
+       int[][] dp=new int[m+1][n+1];
+       for(int j=0;j<=n;j++)
+            dp[0][j]=j;
+            
+       for(int i=1;i<=m;i++)
+        {
+            for(int j=0;j<=n;j++)
+            {
+                if(j==0)
+                    dp[i%2][j]=i;
+                    
+                else if(str1.charAt(i-1) == str2.charAt(j-1))
+                    dp[i%2][j]=dp[(i-1)%2][j-1];
+                else
+                    dp[i%2][j]= 1+Math.min(dp[i%2][j-1],Math.min(dp[(i-1)%2][j],dp[(i-1)%2][j-1]));
+            }
+        }
+        return dp[m%2][n];
+    }
+
+}
+
+                    
+       
+
