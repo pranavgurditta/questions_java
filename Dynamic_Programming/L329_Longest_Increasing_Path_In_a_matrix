@@ -1,0 +1,282 @@
+/*
+329. Longest Increasing Path in a Matrix
+Hard
+
+1821
+
+35
+
+Add to List
+
+Share
+Given an integer matrix, find the length of the longest increasing path.
+
+From each cell, you can either move to four directions: left, right, up or down. You may NOT move diagonally or move outside of the boundary (i.e. wrap-around is not allowed).
+
+Example 1:
+
+Input: nums = 
+[
+  [9,9,4],
+  [6,6,8],
+  [2,1,1]
+] 
+Output: 4 
+Explanation: The longest increasing path is [1, 2, 6, 9].
+Example 2:
+
+Input: nums = 
+[
+  [3,4,5],
+  [3,2,6],
+  [2,2,1]
+] 
+Output: 4 
+Explanation: The longest increasing path is [3, 4, 5, 6]. Moving diagonally is not allowed.
+*/
+
+/* RECURSION -BRUTE FORCE
+class Solution {
+    public int longestIncreasingPath(int[][] matrix) {
+        int max=0;
+        for(int i=0;i<matrix.length;i++)
+        {
+            for(int j=0;j<matrix[0].length;j++)
+            {
+                int result=LIP(matrix,i,j);
+                max=Math.max(result,max);
+                    
+            }
+        }
+    
+        return max;
+    }
+    public int LIP(int[][] matrix, int i,int j){
+        
+        int left=1;
+        int right=1;
+        int bottom=1;
+        int top=1;
+        
+        System.out.println(i+"  "+j);
+        if(i>=matrix.length || j>= matrix[0].length || i<0 || j<0)
+            return 0;
+        
+        if(i<matrix.length-1 && matrix[i][j]<matrix[i+1][j]){
+            bottom =1+LIP(matrix,i+1,j);
+             System.out.println("bottom"+ bottom);
+        }
+        
+        if(i>0 && matrix[i][j]<matrix[i-1][j]){
+           
+            top=1+LIP(matrix,i-1,j);
+             System.out.println("top"+ top);
+        }
+        
+        if(j<matrix[0].length-1 && matrix[i][j]<matrix[i][j+1]){
+            right=1+LIP(matrix,i,j+1);
+             System.out.println("right"+ right);
+        }
+        
+        if(j>0 && matrix[i][j]<matrix[i][j-1]){
+            
+            left=1+LIP(matrix,i,j-1);
+ System.out.println("left"+ left);
+        }
+        return Math.max(left,Math.max(right,Math.max(top,bottom)));
+        
+    }
+}
+
+*/
+
+/*RECURSION WITH MEMOIZATION
+
+class Solution {
+    public int longestIncreasingPath(int[][] matrix) {
+        int max=0;
+        if(matrix.length==0)
+            return max;
+        int[][] memo=new int[matrix.length][matrix[0].length];
+        for(int []temp:memo)
+            Arrays.fill(temp,-1);
+        for(int i=0;i<matrix.length;i++)
+        {
+            for(int j=0;j<matrix[0].length;j++)
+            {
+                int result=LIP(matrix,i,j,memo);
+                max=Math.max(result,max);
+                    
+            }
+        }
+    
+        return max;
+    }
+    public int LIP(int[][] matrix, int i,int j,int[][] memo){
+        
+        if(memo[i][j]>-1)
+            return memo[i][j];
+            
+        int left=1;
+        int right=1;
+        int bottom=1;
+        int top=1;
+        
+        System.out.println(i+"  "+j);
+        if(i>=matrix.length || j>= matrix[0].length || i<0 || j<0)
+            return 0;
+        
+        if(i<matrix.length-1 && matrix[i][j]<matrix[i+1][j]){
+            bottom =1+LIP(matrix,i+1,j,memo);
+             System.out.println("bottom"+ bottom);
+        }
+        
+        if(i>0 && matrix[i][j]<matrix[i-1][j]){
+           
+            top=1+LIP(matrix,i-1,j,memo);
+             System.out.println("top"+ top);
+        }
+        
+        if(j<matrix[0].length-1 && matrix[i][j]<matrix[i][j+1]){
+            right=1+LIP(matrix,i,j+1,memo);
+             System.out.println("right"+ right);
+        }
+        
+        if(j>0 && matrix[i][j]<matrix[i][j-1]){
+            
+            left=1+LIP(matrix,i,j-1,memo);
+ System.out.println("left"+ left);
+        }
+        memo[i][j]=Math.max(left,Math.max(right,Math.max(top,bottom)));
+        return memo[i][j];
+        
+    }
+}
+*/
+
+/*Recursion with Iteration
+
+class Solution {
+    public int longestIncreasingPath(int[][] matrix) {
+        int max=0;
+        if(matrix.length==0)
+            return max;
+        int[][] memo=new int[matrix.length][matrix[0].length];
+        for(int []temp:memo)
+            Arrays.fill(temp,-1);
+        for(int i=0;i<matrix.length;i++)
+        {
+            for(int j=0;j<matrix[0].length;j++)
+            {
+                int result=LIP(matrix,i,j,memo);
+                max=Math.max(result,max);
+                    
+            }
+        }
+    
+        return max;
+    }
+    public int LIP(int[][] matrix, int i,int j,int[][] memo){
+        
+        if(memo[i][j]>-1)
+            return memo[i][j];
+            
+        int left=1;
+        int right=1;
+        int bottom=1;
+        int top=1;
+        
+        System.out.println(i+"  "+j);
+        if(i>=matrix.length || j>= matrix[0].length || i<0 || j<0)
+            return 0;
+        
+        if(i<matrix.length-1 && matrix[i][j]<matrix[i+1][j]){
+            bottom =1+LIP(matrix,i+1,j,memo);
+             System.out.println("bottom"+ bottom);
+        }
+        
+        if(i>0 && matrix[i][j]<matrix[i-1][j]){
+           
+            top=1+LIP(matrix,i-1,j,memo);
+             System.out.println("top"+ top);
+        }
+        
+        if(j<matrix[0].length-1 && matrix[i][j]<matrix[i][j+1]){
+            right=1+LIP(matrix,i,j+1,memo);
+             System.out.println("right"+ right);
+        }
+        
+        if(j>0 && matrix[i][j]<matrix[i][j-1]){
+            
+            left=1+LIP(matrix,i,j-1,memo);
+ System.out.println("left"+ left);
+        }
+        memo[i][j]=Math.max(left,Math.max(right,Math.max(top,bottom)));
+        return memo[i][j];
+        
+    }
+}
+*/
+
+/*RECURSION WITH MEMOIZATION*/
+
+class Solution {
+    public int longestIncreasingPath(int[][] matrix) {
+        int max=0;
+        if(matrix.length==0)
+            return max;
+        int[][] memo=new int[matrix.length][matrix[0].length];
+        for(int []temp:memo)
+            Arrays.fill(temp,-1);
+        for(int i=0;i<matrix.length;i++)
+        {
+            for(int j=0;j<matrix[0].length;j++)
+            {
+                int result=LIP(matrix,i,j,memo);
+                max=Math.max(result,max);
+                    
+            }
+        }
+    
+        return max;
+    }
+    public int LIP(int[][] matrix, int i,int j,int[][] memo){
+        
+        if(memo[i][j]>-1)
+            return memo[i][j];
+            
+        int left=1;
+        int right=1;
+        int bottom=1;
+        int top=1;
+        
+        System.out.println(i+"  "+j);
+        if(i>=matrix.length || j>= matrix[0].length || i<0 || j<0)
+            return 0;
+        
+        if(i<matrix.length-1 && matrix[i][j]<matrix[i+1][j]){
+            bottom =1+LIP(matrix,i+1,j,memo);
+             System.out.println("bottom"+ bottom);
+        }
+        
+        if(i>0 && matrix[i][j]<matrix[i-1][j]){
+           
+            top=1+LIP(matrix,i-1,j,memo);
+             System.out.println("top"+ top);
+        }
+        
+        if(j<matrix[0].length-1 && matrix[i][j]<matrix[i][j+1]){
+            right=1+LIP(matrix,i,j+1,memo);
+             System.out.println("right"+ right);
+        }
+        
+        if(j>0 && matrix[i][j]<matrix[i][j-1]){
+            
+            left=1+LIP(matrix,i,j-1,memo);
+ System.out.println("left"+ left);
+        }
+        memo[i][j]=Math.max(left,Math.max(right,Math.max(top,bottom)));
+        return memo[i][j];
+        
+    }
+}
