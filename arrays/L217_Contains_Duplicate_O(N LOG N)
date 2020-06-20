@@ -28,7 +28,7 @@ Output: true
 
 
 /* Array: Check if sorted array can work, check for base cases with 0 or 1 element.
-Time Complexity: O(n)
+Time Complexity: O(n log n)
 Space Complexity: O(1)*/
 
 class Solution {
