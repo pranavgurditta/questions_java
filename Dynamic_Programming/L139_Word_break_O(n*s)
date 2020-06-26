@@ -1,0 +1,119 @@
+/*139. Word Break
+Medium
+
+4172
+
+228
+
+Add to List
+
+Share
+Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, determine if s can be segmented into a space-separated sequence of one or more dictionary words.
+
+Note:
+
+The same word in the dictionary may be reused multiple times in the segmentation.
+You may assume the dictionary does not contain duplicate words.
+Example 1:
+
+Input: s = "leetcode", wordDict = ["leet", "code"]
+Output: true
+Explanation: Return true because "leetcode" can be segmented as "leet code".
+Example 2:
+
+Input: s = "applepenapple", wordDict = ["apple", "pen"]
+Output: true
+Explanation: Return true because "applepenapple" can be segmented as "apple pen apple".
+             Note that you are allowed to reuse a dictionary word.
+Example 3:
+
+Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
+Output: false*/
+
+
+
+/* O(n^n) brute force 
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        
+        int size=s.length();
+        if(size==0)
+            return true;
+        for(int i=1;i<=size;i++)
+        {
+            if(wordDict.contains(s.substring(0,i)) && wordBreak(s.substring(i,size),wordDict))
+                return true;
+        }
+        return false;
+    
+    }
+}
+
+*/
+
+/* Memoized solution 
+
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        
+        HashMap<String,Boolean> memo=new HashMap<>();
+    return word_break_memo(s,wordDict,memo);
+    }
+    public boolean word_break_memo(String s, List<String> wordDict,HashMap<String,Boolean> memo) {
+        
+        int size=s.length();
+        if(size==0)
+            return true;
+        for(int i=1;i<=size;i++)
+        {
+            if(wordDict.contains(s.substring(0,i)) )
+            {{
+                if(memo.containsKey(s.substring(i,size)) && (memo.get(s.substring(i,size))==true))
+                    return true;
+                else
+                   memo.put(s.substring(i,size),wordBreak(s.substring(i,size),wordDict));
+                
+                if(memo.get(s.substring(i,size))==true)
+                    return true;
+            }
+            }
+        }
+        return false;
+        }
+    
+    }
+
+
+*/
+/*O(size of string * longest string length)*/
+
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        
+        int size=s.length();
+        boolean wb[]=new boolean[size+1];
+        if(size==0)
+            return true;
+        for(int i=1;i<=size;i++)
+        {
+            if(wb[i]==false && wordDict.contains(s.substring(0,i)))
+                wb[i]=true;
+            if(wb[i]==true)
+            {
+                if(size==i)
+                    return true;
+                    
+                for(int j=i+1;j<=size;j++)
+                {   
+                    if(wb[j]==false && wordDict.contains(s.substring(i,j)))
+                        wb[j]=true;
+                    if(j==size && wb[j]==true)
+                        return true;
+                }
+                
+            }
+        }
+        return false;
+     
+    }
+}
