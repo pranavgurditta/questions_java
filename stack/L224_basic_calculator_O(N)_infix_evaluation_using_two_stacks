@@ -1,0 +1,141 @@
+/*224. Basic Calculator
+Hard
+
+1413
+
+128
+
+Add to List
+
+Share
+Implement a basic calculator to evaluate a simple expression string.
+
+The expression string may contain open ( and closing parentheses ), the plus + or minus sign -, non-negative integers and empty spaces .
+
+Example 1:
+
+Input: "1 + 1"
+Output: 2
+Example 2:
+
+Input: " 2-1 + 2 "
+Output: 3
+Example 3:
+
+Input: "(1+(4+5+2)-3)+(6+8)"
+Output: 23
+Note:
+You may assume that the given expression is always valid.
+Do not use the eval built-in library function.
+*/
+class Solution {
+    public int calculate(String s) {
+        
+        Stack<Integer> operands=new Stack<>();
+        Stack<Character> operators=new Stack<>();
+        
+        for(int i=0;i<s.length();i++)
+        {
+            char ch=s.charAt(i);
+            if(ch==' ')
+                continue;
+            if(Character.isLetterOrDigit(ch))
+            {
+                int sum=ch-'0';
+                while(i+1<s.length() && Character.isLetterOrDigit(s.charAt(i+1)))
+                {
+                    sum=sum*10+(s.charAt(i+1)-'0');
+                    i++;
+                }
+            
+            operands.push(sum);
+            }
+            
+            else if(ch=='(')
+                operators.push(ch);
+            
+            else if(s.charAt(i)=='(')
+                operators.push(ch);
+            
+            else if(ch==')')
+            {
+                while(operators.peek()!='(')
+                {
+                   
+                    int first=operands.pop();
+                    int second=operands.pop();
+                    char op=operators.pop();
+                    
+                    if(op=='+')
+                        operands.push(second+first);
+                    if(op=='-')
+                        operands.push(second-first);
+                    if(op=='*')
+                        operands.push(second*first);
+                    if(op=='/')
+                        operands.push(second/first);
+                }
+                operators.pop();
+            }
+            else
+            {
+                while(!operators.isEmpty() && precedence(ch)<=precedence(operators.peek()))
+                {
+                
+                    int first=operands.pop();
+                    int second=operands.pop();
+                    char op=operators.pop();
+                    
+                    if(op=='+')
+                        operands.push(second+first);
+                    if(op=='-')
+                        operands.push(second-first);
+                    if(op=='*')
+                        operands.push(second*first);
+                    if(op=='/')
+                        operands.push(second/first);
+                }
+                operators.push(ch);
+            }
+            System.out.println(ch);
+        }
+        while(!operators.isEmpty())
+                {
+                    int first=operands.pop();
+                    int second=operands.pop();
+                    char op=operators.pop();
+                    
+                    if(op=='+')
+                        operands.push(second+first);
+                    if(op=='-')
+                        operands.push(second-first);
+                    if(op=='*')
+                        operands.push(second*first);
+                    if(op=='/')
+                        operands.push(second/first);
+                }
+                
+        
+            return operands.pop();
+            
+            
+        
+        
+    }
+    int precedence(char ch)
+    {
+        switch(ch){
+        case '+':
+            return 1;
+        case '-':
+            return 1;
+        case '*':
+            return 2;
+        case '/':
+            return 3;
+        }
+        return 0;
+    }
+        
+    
+}
