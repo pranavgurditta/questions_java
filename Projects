@@ -1,0 +1,14 @@
+	Multilingual banking assistant for Kotak  Mahindra Bank
+Project Link: https://bit.do/chat-bot
+Technology stack: Dialogflow for natural language processing, Python on AWS Lambda, AWS DynamoDB as database,, Google Cloud
+Details: The project is a voice based chat bot to communicate with the user in regional languages like Marathi, Tamil, Telugu, etc. 
+                                                                                                                                                                                                          
+	Video Recommendation System:
+Project Link: 	
+Technology stack: Machine Learning, Flask, Microsoft Azure, YouTube’s API,
+Details: The project suggests videos invest
+
+	IPL team analysis and investment decision maker
+Project Link: http://bit.do/IPL_team_investment_decision
+Technology stack: R, Twitter’s API
+Details: The project extracts tweets from twitter related to IPL teams, cleans them and then uses them to decide which team is better for the sponsor to invest.
