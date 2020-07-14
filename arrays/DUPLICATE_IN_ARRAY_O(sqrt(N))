@@ -1,0 +1,60 @@
+/* question can be found here : https://www.interviewbit.com/problems/find-duplicate-in-array */
+
+/* O(N) approach */
+public class Solution {
+   
+    public int repeatedNumber(final int[] A) {
+        int[] count=new int[A.length];
+        for(int i:A)
+        {
+            if(count[i-1]==1)
+                return i;
+            else
+                count[i-1]++;
+            
+        }
+        return -1;
+        
+    }
+}
+
+
+/* O(N LOG N) APPROACH */
+
+public class Solution {
+    // DO NOT MODIFY THE ARGUMENTS WITH "final" PREFIX. IT IS READ ONLY
+    public int repeatedNumber(final int[] A) {
+        Arrays.sort(A);
+        for(int i=0;i<A.length-1;i++)
+        {
+            if(A[i]==A[i+1])
+                return A[i];
+        }
+        return -1;
+        
+    }
+}
+
+
+/*  O(N) time  APPROACH by converting numbers to negative and on second arrival if negative, return that number*/
+
+public class Solution {
+    // DO NOT MODIFY THE ARGUMENTS WITH "final" PREFIX. IT IS READ ONLY
+    public int repeatedNumber(final int[] A) {
+        
+        for(int i=0;i<A.length;i++)
+        {
+            int temp=A[Math.abs(A[i])];
+            if(temp>0)
+                A[Math.abs(A[i])]=-A[Math.abs(A[i])];
+            else
+                return Math.abs(A[i]);
+        }
+        return -1;
+    }
+}
+
+
+
+
+
