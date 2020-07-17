@@ -1,0 +1,134 @@
+/*994. Rotting Oranges
+Medium
+
+1792
+
+181
+
+Add to List
+
+Share
+In a given grid, each cell can have one of three values:
+
+the value 0 representing an empty cell;
+the value 1 representing a fresh orange;
+the value 2 representing a rotten orange.
+Every minute, any fresh orange that is adjacent (4-directionally) to a rotten orange becomes rotten.
+
+Return the minimum number of minutes that must elapse until no cell has a fresh orange.  If this is impossible, return -1 instead.
+
+ 
+
+Example 1:
+
+
+
+Input: [[2,1,1],[1,1,0],[0,1,1]]
+Output: 4
+Example 2:
+
+Input: [[2,1,1],[0,1,1],[1,0,1]]
+Output: -1
+Explanation:  The orange in the bottom left corner (row 2, column 0) is never rotten, because rotting only happens 4-directionally.
+Example 3:
+
+Input: [[0,2]]
+Output: 0
+Explanation:  Since there are already no fresh oranges at minute 0, the answer is just 0.
+ 
+
+Note:
+
+1 <= grid.length <= 10
+1 <= grid[0].length <= 10
+grid[i][j] is only 0, 1, or 2.
+*/
+class Solution {
+    public int orangesRotting(int[][] grid) {
+        int r=grid.length;
+        int c=grid[0].length;
+        int[][] a=grid;
+        int count_fresh=0;
+        Queue<Integer> q=new LinkedList<Integer>();
+        int count=0;
+        // Write your code here
+        for(int i=0;i<r;i++)
+        {
+            for(int j=0;j<c;j++)
+            {
+                if(a[i][j]==2) 
+                {
+                    q.offer(i);
+                    q.offer(j);
+                }
+                else if(a[i][j]==1)
+                    count_fresh++;
+               
+            }
+         }
+         q.offer(-1);
+         q.offer(-1);
+         boolean flag=true;
+        if( count_fresh==0)
+            return 0;
+        while(!q.isEmpty())     
+        {
+          while(q.peek()!=-1)
+            {
+            int i=q.poll();
+            int j=q.poll();
+            System.out.println(i+" "+j);
+            if(flag)
+            {
+                    count++;
+                    flag=false;
+            }
+            
+            if(i+1<r && a[i+1][j]==1)
+                {
+                    q.offer(i+1);
+                    q.offer(j);
+                    a[i+1][j]=2;
+                }
+            if(j+1<c  && a[i][j+1]==1)
+            {
+                    q.offer(i);
+                    q.offer(j+1);
+                      a[i][j+1]=2;
+                    
+                }
+            if(i-1>=0 && a[i-1][j]==1)
+                {
+                    q.offer(i-1);
+                    q.offer(j);
+                      a[i-1][j]=2;
+                    
+                }
+            if(j-1>=0  && a[i][j-1]==1)
+               {
+                    q.offer(i);
+                    q.offer(j-1);
+                    a[i][j-1]=2;
+            }
+        }
+        q.poll();
+        q.poll();
+        if(!q.isEmpty())
+        {
+            q.offer(-1);
+            q.offer(-1);
+            flag=true;
+        }
+        
+        }
+        return check(a,r,c) ? count-1:-1;
+    }
+    boolean check(int[][] a,int r,int c)
+    {
+        for(int i=0;i<r;i++)
+            for(int j=0;j<c;j++)
+                if(a[i][j]==1)
+                    return false;
+        return true;
+    }
+}
