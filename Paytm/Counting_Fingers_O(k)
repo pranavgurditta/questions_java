@@ -1,0 +1,37 @@
+/*Count the given numbers on your fingers and find the correct finger on which the number ends.
+
+The first number starts from the thumb, second on the index finger, third on the middle finger, fourth on the ring finger and fifth on the little finger. Again six comes on the ring finger and so on.Count the given numbers on your fingers and find the correct finger on which the number ends.
+
+*/
+
+
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        boolean flag=true;
+        int count=0;
+        for(int i=1;i<=n;i++){
+           
+            if(flag)
+                count++;
+            else count--;
+            
+             if(count==5)
+                flag=false;
+             if(count==1)
+                 flag=true;
+            
+                 
+        }
+        System.out.println(count);
+    }
+}
