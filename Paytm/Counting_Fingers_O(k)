@@ -12,9 +12,8 @@ import java.math.*;
 import java.util.regex.*;
 
 public class Solution {
-
+/* O(k) 
     public static void main(String[] args) {
-        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
         Scanner sc=new Scanner(System.in);
         int n=sc.nextInt();
         boolean flag=true;
@@ -33,5 +32,25 @@ public class Solution {
                  
         }
         System.out.println(count);
+    }
+*/
+    
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int r=n%8;
+        
+        
+        if(r==1)
+            System.out.println(r);
+        if(r==5)
+            System.out.println(r);
+        if(r==2 || r==0)
+            System.out.println(2);
+        if(r==3 || r==7)
+            System.out.println(3);
+        if(r==4 || r==6)
+            System.out.println(4);
+        
     }
 }
