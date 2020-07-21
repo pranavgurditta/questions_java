@@ -1,0 +1,102 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    // Complete the countInversions function below.
+    /* O(N^2)
+    static long countInversions(int[] arr) {
+        int count=0;
+        for(int i=0;i<arr.length;i++)
+            for(int j=i+1;j<arr.length;j++)
+                if(arr[i]>arr[j])
+                    count++;
+        
+        return count;
+        */
+static long countInversions(int[] arr) {
+        return mergesortAndCount(arr,0,arr.length-1);
+      
+ }
+ static long mergesortAndCount(int[] arr,int l,int r)
+ {
+     long count=0;
+     if(l<r)
+     {
+         int mid=(l+r)/2;
+         count+=mergesortAndCount(arr,l,mid);
+         count+=mergesortAndCount(arr,mid+1,r);
+         count+=mergesort(arr,l,mid,r);
+     }
+     return count;
+ }
+static long mergesort(int[] arr,int l,int m,int r)
+ {
+     int length_of_left=m+1-l;
+     int length_of_right=r-m;
+     int[] left=new int[length_of_left];
+     int[] right=new int[length_of_right];
+    for(int i=0;i<length_of_left;i++)
+        left[i]=arr[l+i];
+    for(int j=0;j<length_of_right;j++)
+        right[j]=arr[m+1+j];
+            
+     int i=0,j=0,k=l;
+     long swaps=0;
+     while(i<length_of_left && j<length_of_right)
+     {
+        if(left[i]<=right[j])
+            arr[k++]=left[i++];
+        else
+        {
+            arr[k++]=right[j++];
+            swaps+=(m+1)-(l+i);
+        }
+    }
+    while(i<length_of_left)
+        arr[k++]=left[i++];
+
+    while(j<length_of_right)
+        arr[k++]=right[j++];
+
+    return swaps;
+}
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int t = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        for (int tItr = 0; tItr < t; tItr++) {
+            int n = scanner.nextInt();
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+            int[] arr = new int[n];
+
+            String[] arrItems = scanner.nextLine().split(" ");
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+            for (int i = 0; i < n; i++) {
+                int arrItem = Integer.parseInt(arrItems[i]);
+                arr[i] = arrItem;
+            }
+
+            long result = countInversions(arr);
+
+            bufferedWriter.write(String.valueOf(result));
+            bufferedWriter.newLine();
+        }
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
