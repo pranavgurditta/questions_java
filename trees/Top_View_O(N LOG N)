@@ -1,0 +1,80 @@
+import java.util.*;
+import java.io.*;
+
+class Node {
+    Node left;
+    Node right;
+    int data;
+    
+    Node(int data) {
+        this.data = data;
+        left = null;
+        right = null;
+    }
+}
+
+class Solution {
+
+	/* 
+    https://www.hackerrank.com/challenges/tree-top-view/problem
+    class Node 
+    	int data;
+    	Node left;
+    	Node right;
+	*/
+
+static class Pair
+{
+    int levels;
+    int key;
+}
+
+// Method that returns the bottom view.
+    
+  public static void topView(Node root) {  
+    
+    ArrayList<Integer> arr=new ArrayList<Integer>();
+    if(root==null)
+        return;
+    HashMap<Integer,Pair> map=new HashMap<>();
+    bottom(root,0,0,map);
+    for(int i:map.keySet())
+        arr.add(i);
+    Collections.sort(arr);
+    for(int i:arr)
+        System.out.print(map.get(i).key+" ");
+  }
+
+
+    
+    
+    public static void bottom(Node root,int vertical,int level,HashMap<Integer,Pair> map)
+    {
+        if(root==null)
+            return;
+        if(!map.containsKey(vertical))
+            {
+                Pair s=new Pair();
+                s.key=root.data;
+                s.levels=level;
+                map.put(vertical,s);
+            }
+        else{
+            Pair p=map.get(vertical);
+            if(p.levels>level)
+            {
+                map.remove(vertical);
+               
+                p.levels=level;
+                p.key=root.data;
+                map.put(vertical,p);
+            }
+        }
+        bottom(root.left,vertical-1,level+1,map);
+        bottom(root.right,vertical+1,level+1,map);
+    }
+    
+
+    
+
+	public static Node insert(Node root, int data) {
