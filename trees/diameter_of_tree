@@ -1,0 +1,24 @@
+class Tree {
+    
+    int answer=0;
+    /* Complete the function to get diameter of a binary tree */
+    int diameter(Node root) {
+        // Your code here
+    
+    
+       dfs(root);
+       return answer;
+    }
+    
+    int dfs(Node root){
+        if(root==null)
+            return 0;
+        
+        int left=dfs(root.left);
+        int right=dfs(root.right);
+        
+        
+        answer=Math.max(answer,left+right+1);
+        return Math.max(left,right)+1;
+    }
+}
