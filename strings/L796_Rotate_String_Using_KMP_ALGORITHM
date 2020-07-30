@@ -1,0 +1,76 @@
+/*796
+https://leetcode.com/problems/rotate-string/
+
+*/
+class Solution {
+    public boolean rotateString(String A, String B) {
+        if(A.length()!=B.length())
+            return false;
+         if(A.length()==0)
+             return true;
+        int[] lps=new int[B.length()];
+        computeLPSArray(B,lps,B.length()-1);
+        for(int i:lps)
+            System.out.println(i);
+        return KMPSearch(A+A,B,lps);
+        }
+    
+    void computeLPSArray(String Pattern,int[] lps,int B_len)
+    {
+        int len=0;
+        int i=1;
+        int j=0;
+        lps[0]=0;
+        
+        while(i<B_len)
+        {
+            if(Pattern.charAt(len)==Pattern.charAt(i))
+            {
+                len++;
+                lps[i]=len;
+                i++;
+            }
+            else
+            {
+                if(len>0)
+                    len=lps[len-1];
+                else
+                    i++;
+            }
+        }
+    }
+    
+    boolean KMPSearch(String text,String pattern,int[] lps)
+    {
+        boolean flag=false;
+        int i=0;
+        int j=0;
+        while(i<text.length())
+        {
+            if(text.charAt(i)==pattern.charAt(j))
+            {
+                i++;
+                j++;
+                
+            }
+            if(j==pattern.length())
+            {
+                flag=true;
+                break;
+            }
+            else if(text.charAt(i)!=pattern.charAt(j))
+            {
+                
+            System.out.println(i+" "+j);
+                if(j!=0)
+                    j=lps[j-1];
+                else
+                    i++;
+            }
+        }
+        return flag;
+    }
+    
+    
+        
+    }
