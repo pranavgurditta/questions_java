@@ -1,0 +1,51 @@
+/*316. Remove Duplicate Letters
+Hard
+
+1372
+
+109
+
+Add to List
+
+Share
+Given a string which contains only lowercase letters, remove duplicate letters so that every letter appears once and only once. You must make sure your result is the smallest in lexicographical order among all possible results.
+
+Example 1:
+
+Input: "bcabc"
+Output: "abc"
+Example 2:
+
+Input: "cbacdcbc"
+Output: "acdb"
+*/
+class Solution {
+    public String removeDuplicateLetters(String s) {
+        int[] count=new int[26];
+        boolean[] visited=new boolean[26];
+        char[] str=s.toCharArray();
+        
+        for(char ch:str)
+            count[ch-'a']++;
+        
+        Stack<Character> st=new Stack<Character>();
+        
+        for(char ch:str)
+        {
+            count[ch-'a']--;
+            if(visited[ch-'a'])
+                continue;
+            while(!st.isEmpty() && ch<st.peek() && count[st.peek()-'a']!=0)
+                visited[st.pop()-'a']=false;
+            
+            st.push(ch);
+            visited[ch-'a']=true;
+            
+        }
+        StringBuilder sb=new StringBuilder();
+        while(!st.isEmpty())
+            sb.insert(0,st.pop());
+        
+        return sb.toString();
+    }
+}
