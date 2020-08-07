@@ -1,0 +1,40 @@
+/*L1051 https://leetcode.com/problems/height-checker/*/
+
+/*O(N LOG N)
+
+class Solution {
+    public int heightChecker(int[] heights) {
+        int copy[]=new int[heights.length];
+        for(int i=0;i<heights.length;i++)
+            copy[i]=heights[i];
+        int count=0;
+        Arrays.sort(heights);
+        for(int i=0;i<heights.length;i++)
+            if(heights[i]!=copy[i])
+                count++;
+        return count;
+      
+    }
+}
+*/
+
+/*O(N)*/
+class Solution {
+    public int heightChecker(int[] heights) {
+        
+        int[] freq=new int[101];
+        for(int i:heights)
+            freq[i]++;
+        int current=0;
+        int result=0;
+        for(int i=0;i<heights.length;i++)
+        {
+            while(freq[current]==0)
+                current++;
+            if(current!=heights[i])
+                result++;
+            freq[current]--;            
+        }
+        return result;
+    }
+}
