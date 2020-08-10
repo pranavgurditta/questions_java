@@ -1,0 +1,99 @@
+ /*https://leetcode.com/problems/lru-cache/
+*/
+
+class DLLNode{
+    DLLNode left;
+    DLLNode right;
+    int value;
+    int key;
+}
+class LRUCache {
+    HashMap<Integer,DLLNode> hashmap;
+    DLLNode end;
+    DLLNode start;
+    int LRU_capacity;
+    
+
+    LRUCache(int capacity) {
+        hashmap=new HashMap<Integer,DLLNode>();
+        end=null;
+        start=null;
+        LRU_capacity=capacity;
+    }
+    
+
+    void put(int key, int value) {
+        /* if hashmap contains the key we just update it */
+        if(hashmap.containsKey(key))
+        {
+            DLLNode node=hashmap.get(key);
+            node.value=value;
+            removeNode(node);
+            addAtTop(node);
+        }
+        else
+        {
+            /*if hashmap does not contain the key we will check if size of hash is greater than cache capactiy*/
+            DLLNode newNode=new DLLNode();
+            newNode.left=null;
+            newNode.right=null;
+            newNode.key=key;
+            newNode.value=value;
+            if(hashmap.size()>=LRU_capacity)
+            {
+                hashmap.remove(end.key);
+                removeNode(end);
+                addAtTop(newNode);
+            }
+            else
+            {
+                addAtTop(newNode);
+            }
+            hashmap.put(key,newNode);
+        }
+    }
+    
+    void removeNode(DLLNode node)
+    {
+        if(node.left!=null)
+            node.left.right=node.right;
+        else
+            start=node.right;
+        if(node.right!=null)
+            node.right.left=node.left;
+        else
+            end=node.left;   
+    }
+    
+    void addAtTop(DLLNode node)
+    {
+        node.right=start;
+        node.left=null;
+        if(start!=null)
+            start.left=node;
+        start=node;
+        if(end==null)
+            end=start;
+    }
+    
+    int get(int key)
+    {
+        if(hashmap.containsKey(key))
+        {
+            DLLNode node=hashmap.get(key);
+            removeNode(node);
+            addAtTop(node);
+            return node.value;
+        }
+        return -1;
+        
+    }
+        
+}
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
