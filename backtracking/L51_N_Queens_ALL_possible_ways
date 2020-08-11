@@ -1,0 +1,68 @@
+/*https://leetcode.com/problems/n-queens
+*/
+class Solution {
+   
+    List<List<String>> main_list=new ArrayList<List<String>>();
+ 
+  
+    public List<List<String>> solveNQueens(int n) {
+        
+        int[][] board=new int[n][n];
+        solve(board,0,n);
+        return main_list;
+    }
+        
+
+
+/*https://leetcode.com/problems/n-queens-ii/
+*/
+
+     public boolean isSafe(int[][] board,int row,int column,int n){
+        
+        for(int i=0;i<column;i++)
+            if(board[row][i]==1)
+                return false;
+        for(int i=row,j=column;i>=0 && j>=0;i--,j--)
+            if(board[i][j]==1)
+                return false;
+        for(int i=row,j=column;i<n && j>=0;i++,j--)
+            if(board[i][j]==1)
+                return false;
+        return true;
+    }
+    
+    public void solve(int[][] board,int col,int n)
+    {
+        if(col==n)
+        {       
+            List<String> sub_list=new ArrayList<String>();
+            for(int i=0;i<board.length;i++)
+            {
+                String s="";
+                for(int j=0;j<board.length;j++)
+                {
+                    if(board[i][j]==1)
+                        s+="Q";
+                    else
+                        s+=".";
+                }
+                sub_list.add(s);
+            }
+            main_list.add(sub_list);
+            return;
+        }
+        for(int row=0;row<n;row++)
+        {
+            if(isSafe(board,row,col,n))
+            {
+                board[row][col]=1;
+                
+                solve(board,col+1,n);
+                
+                board[row][col]=0;
+            }
+        }
+         
+    }
+   
+}
