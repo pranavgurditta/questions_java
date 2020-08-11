@@ -1,0 +1,62 @@
+/* https://leetcode.com/problems/network-delay-time/*/
+class Solution {
+    int answer=0;
+    public int networkDelayTime(int[][] times, int N, int K) {
+        
+        
+       HashMap<Integer,List<int []>> graph=new HashMap<>();
+       HashMap<Integer,Integer> dist=new HashMap<>();
+        
+        boolean[] visited=new boolean[N+1];
+        for(int [] edge: times)
+        {
+            if(!graph.containsKey(edge[0]))
+                graph.put(edge[0],new ArrayList<int []>());
+            graph.get(edge[0]).add(new int[] {edge[1],edge[2]});
+            
+        }
+        
+        for(int i=1;i<=N;i++)
+            dist.put(i,Integer.MAX_VALUE);
+        
+   
+        int index=-1;
+        dist.put(K,0);
+        for(int i=1;i<=N;i++)
+        {     int min=Integer.MAX_VALUE;
+            for(int j=1;j<=N;j++)
+            {
+                if(visited[j]==false && dist.get(j)<min)
+                {
+                    min=dist.get(j);
+                    index=j;
+                }
+            }
+            int min_vertex=index;
+            
+            visited[min_vertex]=true;
+            System.out.println(min_vertex);
+            if(graph.containsKey(min_vertex))
+            {
+                for(int [] info:graph.get(min_vertex))
+                    
+                {
+                    dist.put(info[0], Math.min(dist.get(info[0]),dist.get(min_vertex)+info[1]));
+                }
+            }
+        }
+        int ans=0;
+        for(int i=1;i<=N;i++)
+        {
+            
+            if(dist.get(i)==Integer.MAX_VALUE)
+                return -1;
+            System.out.println(i+ " "+dist.get(i));
+            ans=Math.max(ans,dist.get(i));
+        }
+        
+        return ans;
+        }
+        
+    
+}
