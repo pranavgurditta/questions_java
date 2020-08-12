@@ -1,0 +1,106 @@
+/**
+https://leetcode.com/problems/rotate-list/
+
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+/*
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head==null || head.next==null)
+            return head;
+        
+        int count=0;
+        ListNode current=head;
+        while(current!=null)
+        {    
+            count++;
+            current=current.next;
+        }
+        
+        
+        int[] list_to_array=new int[count];
+        
+        k=k%count;
+        count=0; 
+        current=head;
+        while(current!=null)
+        {    
+            list_to_array[count++]=current.val;
+            current=current.next;
+        }
+        
+        while(k>0)
+        {
+            int temp=list_to_array[count-1];
+            int next=list_to_array[0];
+            int prev=next;
+            for(int i=0;i<count-1;i++)
+            {
+                next=list_to_array[i+1];
+                list_to_array[i+1]=prev;
+                prev=next;
+            }
+            list_to_array[0]=temp;
+            k--;
+        }
+        
+        head=null;
+        current=head;
+        
+        for(int i=0;i<count;i++)
+        {
+            if(head==null)
+            {
+                head=new ListNode(list_to_array[i]);
+                current=head;
+            }
+            else
+            {
+                current.next=new ListNode(list_to_array[i]);
+                current=current.next;
+            }
+            
+        }
+        return head;
+    }
+}
+
+
+*/
+
+
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        
+        if(head==null || head.next==null)
+            return head;
+        ListNode dummy=new ListNode();
+        dummy.next=head;
+        ListNode slow=dummy;
+        ListNode fast=dummy;
+        
+        int len=0;
+        while(fast.next!=null)
+        {
+            fast=fast.next;
+            len++;
+        }
+        
+        for(int j=len-(k%len);j>0;j--)
+            slow=slow.next;
+        
+        fast.next=dummy.next;
+        dummy.next=slow.next;
+        slow.next=null;
+        
+        return dummy.next;
+    }
+}
+
