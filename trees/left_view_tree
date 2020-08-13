@@ -1,0 +1,37 @@
+
+//User function Template for Java
+
+/* A Binary Tree node
+class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int item)
+    {
+        data = item;
+        left = right = null;
+    }
+}*/
+class Tree
+{
+    void leftView(Node root)
+    {
+      // Your code here
+      List<Integer> arr=new ArrayList<Integer>();
+      helper(root,0,arr);
+      for(int i:arr)
+        System.out.print(i+" ");
+      
+    }
+    void helper(Node root,int level,List<Integer> arr)
+    {
+        if(root==null)
+            return;
+        if(arr.size()==level)
+            arr.add(root.data);
+        helper(root.left,level+1,arr);
+        helper(root.right,level+1,arr);
+        
+    }
+}
