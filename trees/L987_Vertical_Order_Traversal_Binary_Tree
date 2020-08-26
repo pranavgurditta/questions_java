@@ -1,0 +1,97 @@
+/**
+https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/submissions/
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ check the layer, the node on higher level(close to root) goes first
+if they also in the same level, order from small to large
+ */
+class Pair{
+    TreeNode root;
+    int level;
+    int distance;
+    Pair(TreeNode root,int distance,int level)
+    {
+        this.root=root;
+        this.distance=distance;
+        this.level=level;
+    }
+}
+class Solution {
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        List<List<Integer>> l=new ArrayList<List<Integer>>();
+        HashMap<Integer, ArrayList<Pair>> map=new HashMap<>();
+        Queue<Pair> q=new LinkedList<Pair>();
+        Pair p=new Pair(root,0,0);
+        q.offer(p);
+        vertical(0,map,q);
+        ArrayList<Integer> arr=new ArrayList<Integer>(map.keySet());
+        Collections.sort(arr);
+        for(int i:arr){
+            int size=map.get(i).size();
+            ArrayList<Pair> list=new ArrayList<Pair>();
+             
+            for(int j=0;j<size;j++)
+            {
+                list.add(map.get(i).get(j));
+                }
+            Collections.sort(list, new Comparator<Pair>() {
+                @Override
+                public int compare(Pair arr1, Pair arr2) {
+                    if (arr1.level != arr2.level)// if two elements level do not match which case would never arise 
+                    {
+                        return arr1.level - arr2.level;
+                    } else { // if two elements have same level sort in ascending manner
+                        return arr1.root.val - arr2.root.val;
+                    }
+                }
+            });
+                ArrayList<Integer> a=new ArrayList<>();
+                for(Pair p1:list)
+                    a.add(p1.root.val);
+                l.add(a);
+          
+        }
+        return l;
+                
+        
+    }
+    void  vertical(int dist,HashMap<Integer, ArrayList<Pair>> map,Queue<Pair> q)
+    {
+        
+        while(!q.isEmpty())
+        {
+            int size_of_level=q.size();
+            for(int i=0;i<size_of_level;i++)
+            {
+                Pair n=q.poll();
+                TreeNode node=n.root;
+                dist=n.distance;
+                int level=n.level;
+                if(map.get(dist)==null)
+                    map.put(dist,new ArrayList<Pair>());
+                map.get(dist).add(new Pair(node,dist,level));
+                 
+                if(node.left!=null)
+                    q.offer(new Pair(node.left,dist-1,level+1));
+                if(node.right!=null)
+                    q.offer(new Pair(node.right,dist+1,level+1));
+                
+            }
+                
+        }
+    }
+    
+    
+    
+}
