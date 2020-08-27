@@ -1,0 +1,88 @@
+/*
+
+Link : https://codezen.codingninjas.com/practice/499/772/boundary-traversal
+Pattern : Tree traversal
+
+Approach: https://www.autodraw.com/share/3STHQIIY7FM4
+
+
+Class used for BinaryTreeNode
+
+class BinaryTreeNode<T> {
+	T data;
+	BinaryTreeNode<T> left;
+	BinaryTreeNode<T> right;
+	
+	BinaryTreeNode(T data) {
+		this.data = data;
+		this.left = null;
+		this.right = null;
+	}
+}
+*/
+
+public class Solution {
+
+	public static void solve(BinaryTreeNode<Integer> root){
+		//Your code goes here
+        if(root==null)
+            return;
+        
+        System.out.print(root.data+" ");
+        
+        printBoundaryLeft(root.left);
+        printLeaves(root.left);
+        printLeaves(root.right);
+        printBoundaryRight(root.right);
+        
+    }
+    static void printBoundaryLeft(BinaryTreeNode<Integer> root)
+    {
+        if(root==null)
+            return;
+        if(root.left!=null)
+        {
+            System.out.print(root.data+" ");
+            printBoundaryLeft(root.left);
+        }
+        else if (root.right!=null)
+        {
+            System.out.print(root.data+" ");
+       		 printBoundaryLeft(root.right);
+        }
+        return;
+    }
+    
+    static void printBoundaryRight(BinaryTreeNode<Integer> root)
+    {
+        if(root==null)
+            return;
+        if(root.right!=null)
+        {
+            printBoundaryRight(root.right);
+            
+            System.out.print(root.data+" ");
+        }
+        else if(root.left!=null){
+            
+            
+        printBoundaryRight(root.left);
+            
+            System.out.print(root.data+" ");
+        }
+        return;
+    }
+    
+    static void printLeaves(BinaryTreeNode<Integer> root)
+    {
+        if(root==null)
+            return;
+        if(root.left==null && root.right==null)
+            System.out.print(root.data+"  ");
+        
+            
+        printLeaves(root.left);
+        printLeaves(root.right);
+    }
+    
+}
