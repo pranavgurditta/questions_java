@@ -1,0 +1,49 @@
+/* Link : https://www.interviewbit.com/problems/palindrome-partitioning-ii/ */
+/* Approach : Dynamic Programming */
+
+public class Solution {
+      int[][] dp;
+    public int minCut(String s) {
+     
+    
+        dp=new int[s.length()+1][s.length()+1];
+        for(int[] t:dp)
+            Arrays.fill(t,-1);
+        return MCM_format(s,0, s.length()-1);
+    }
+    
+    int MCM_format(String s,int i,int j)
+    {
+        if(i>=j)
+            return 0;
+        
+        if(dp[i][j]!=-1)
+            return dp[i][j];
+        if(isPalindrome(s,i,j))
+            return 0;
+        int min=Integer.MAX_VALUE;
+        for(int k=i;k<=j-1;k++)
+        {
+            int left= dp[i][k]==-1 ? MCM_format(s,i,k) : dp[i][k];
+            dp[i][k]=left;
+            int right= dp[k+1][j]==-1 ? MCM_format(s,k+1,j) : dp[k+1][j];
+            dp[k+1][j]=right;
+            int temp=1+left+right;
+            min=Math.min(temp,min);
+        }
+        dp[i][j]=min;
+        return min;
+        
+    }
+    boolean isPalindrome(String s,int i,int j)
+    {
+        while(i<j)
+        {
+            if(s.charAt(i)!=s.charAt(j))
+                return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+}
