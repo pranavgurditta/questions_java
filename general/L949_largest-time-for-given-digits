@@ -1,0 +1,42 @@
+/*https://leetcode.com/problems/largest-time-for-given-digits/*/
+class Solution {
+    String ans="-1";
+    public String largestTimeFromDigits(int[] A) {
+        String s="";
+        for(int i:A)
+            s+=i;
+        permute(s,0,3);
+        return ans=="-1" ? "" :(new StringBuilder(ans).insert(2,':')).toString();
+        
+    }
+    public void permute(String str,int l,int r)
+    {
+        if(l==r)
+        {   if(Integer.parseInt(str)<=2359 && str.charAt(2)<'6'  )
+                if(Integer.parseInt(str)>Integer.parseInt(ans))
+                    ans=str;
+                    
+        }
+        else
+        {
+            for(int i=l;i<=r;i++)
+            {
+                str=swap(str,l,i);
+                permute(str,l+1,r);
+                str=swap(str,i,l);
+            
+            }
+        }
+            
+        
+    }
+    public String swap(String str,int l,int r)
+    {
+        char[] s=str.toCharArray();
+        char a=s[l];
+        s[l]=s[r];
+        s[r]=a;
+        return String.valueOf(s);
+    }
+        
+}
