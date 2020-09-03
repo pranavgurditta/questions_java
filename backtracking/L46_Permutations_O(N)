@@ -1,0 +1,29 @@
+/*L46: https://leetcode.com/problems/permutations*/
+
+class Solution {
+    List<List<Integer>> mainList;
+    public List<List<Integer>> permute(int[] nums) {
+        mainList=new ArrayList<List<Integer>>();
+        permute_backtrack(mainList,new ArrayList<Integer>(),nums);
+        return mainList;
+    }
+    public void permute_backtrack( List<List<Integer>> mainList,List<Integer> tempList,int[] nums)
+    {
+        if(tempList.size()==nums.length)
+            mainList.add(new ArrayList<>(tempList));
+        else
+        {
+            for(int i=0;i<nums.length;i++)
+            {
+                if(tempList.contains(nums[i]))
+                    continue;
+                tempList.add(nums[i]);
+                permute_backtrack(mainList,tempList,nums);
+                tempList.remove(tempList.size()-1);
+                
+            }
+        }
+    }
+
+   
+}
