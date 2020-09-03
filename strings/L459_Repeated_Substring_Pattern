@@ -1,0 +1,21 @@
+/*https://leetcode.com/problems/repeated-substring-pattern/*/
+class Solution {
+    public boolean repeatedSubstringPattern(String s) {
+        for(int i=0;i<s.length()-1;i++)
+        {
+         
+            StringBuffer sub=new StringBuffer(s.substring(0,i+1));
+            String repeat=sub.toString();
+            if(s.length()%sub.length()==0)
+            {
+                while(sub.length()!=s.length())
+                {
+                    sub.append(repeat);
+                }
+            if(sub.toString().equals(s))
+                return true;
+            }
+        }
+        return false;
+    }
+}
