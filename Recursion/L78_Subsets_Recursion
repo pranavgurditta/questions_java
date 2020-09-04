@@ -1,0 +1,32 @@
+/*https://leetcode.com/problems/subsets/*/
+class Solution {
+    List<List<Integer>> mainList;
+    public List<List<Integer>> subsets(int[] nums) {
+        mainList=new ArrayList<List<Integer>>();
+        ArrayList<Integer> input=new ArrayList<Integer>();
+        for(int i:nums)
+            input.add(i);
+        subset(nums,input,new ArrayList<Integer>());
+        return mainList;
+    }
+    
+    void subset(int[] nums,List<Integer> input,List<Integer> output)
+    {
+        if(input.size()==0){
+            mainList.add(new ArrayList<>(output));
+        }
+        else
+        { 
+            int t=input.get(0);
+            
+            input.remove(0);
+            List<Integer> input_new=new ArrayList<>(input);
+            
+            List<Integer> output_new=new ArrayList<>(output);
+            subset(nums,input,output);
+            
+            output_new.add(t);
+            subset(nums,input_new,output_new);
+        }
+    }
+}
