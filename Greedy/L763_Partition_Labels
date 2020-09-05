@@ -1,0 +1,67 @@
+
+/*
+L763: https://leetcode.com/problems/partition-labels
+Approach:
+as soon as an alphabet which belongs to previous part is encountered the part of all the alphabets prior to it are changed to that part.
+    a a b c b b e a
+    1 1 2 3  
+    a a b c b b e a
+    1 1 2 3 2       hence change all previous ones
+    
+    a a b c b b e a
+    1 1 2 2 2 2 3 1   hence change all previous ones
+    
+    a a b c b b e a
+    1 1 1 1 1 1 1 1
+    
+    Hence one part only.
+    Note values array is used as hashmap's key valjue is changed for one b , it changes for all other b in the string, so we need values array to maintain this.
+*/
+
+
+
+class Solution {
+    public List<Integer> partitionLabels(String S) {
+        List<Integer> list=new ArrayList<Integer>();
+        HashMap<Character,Integer> map=new HashMap<Character,Integer>();
+        map.put(S.charAt(0),1);
+        int[] values=new int[S.length()];
+        for(int i=1;i<S.length();i++)
+        {
+            if(map.containsKey(S.charAt(i)))
+            {
+                int j=i-1;
+                while(j>=0 && values[j] > map.get(S.charAt(i)))
+                {
+                    System.out.println(S.charAt(j)+" "+map.get(S.charAt(j)));
+                    
+                    map.put(S.charAt(j),map.get(S.charAt(i)));
+                    j--;
+                }
+                    
+            }
+            else
+                map.put(S.charAt(i),map.get(S.charAt(i-1))+1);
+            values[i]=map.get(S.charAt(i));
+        }
+        for(int i=0;i<S.length();i++)
+            list.add(map.get(S.charAt(i)));
+        List<Integer> ans=new ArrayList<Integer>();
+        int count=1;
+        for(int i=1;i<list.size();i++)
+        {
+         
+            if(list.get(i-1)!=list.get(i))
+            {
+                ans.add(count);
+                
+                count=0;
+            }
+               count++;
+        }
+        
+            ans.add(count);    
+            
+        return ans;
+    }
+}
