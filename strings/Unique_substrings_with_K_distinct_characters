@@ -1,0 +1,58 @@
+// "static void main" must be defined in a public class.
+public class Main {
+    
+    public static Set<String> uniqueSubstringSizeK(String s, int k) {
+        Set<String> set = new HashSet<>();
+        
+        int[] ch = new int[26];
+        int lo=0;
+        int hi=0;
+        boolean flag=false;
+        while(hi<s.length())
+        {
+            if(ch[s.charAt(hi)-'a']==1)
+                flag=true;
+            ch[s.charAt(hi)-'a']++;
+            hi++;
+            if(hi-lo+1>k)
+                flag=true;
+           
+            if(flag)
+            {
+                if(hi-lo+1>k)
+                {
+                    lo++;
+                    flag=false;
+                }
+                while(ch[s.charAt(lo)-'a']>1)
+                {
+                    ch[s.charAt(lo)-'a']--;
+                    lo++;
+                }
+                flag=false;
+            }
+            if(hi-lo+1==k && hi<s.length()){
+                set.add(s.substring(lo,hi+1));
+                
+                 ch[s.charAt(lo)-'a']--;
+                 lo++;
+            }
+            
+                
+                
+            }
+        
+        System.out.println(set.size());
+        Iterator<String> it = set.iterator();
+        while(it.hasNext()) {
+            System.out.println(it.next());
+        }
+        return set;
+    }
+    
+    public static void main(String[] args) {
+        uniqueSubstringSizeK("abcabc", 3);
+        uniqueSubstringSizeK("abacab", 3);
+        uniqueSubstringSizeK("awaglknagawunagwkwagl", 4);
+    }
+}
