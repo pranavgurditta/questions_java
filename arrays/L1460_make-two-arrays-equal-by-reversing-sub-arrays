@@ -1,0 +1,16 @@
+/*another form of just checking anagrams */
+/* https://leetcode.com/problems/make-two-arrays-equal-by-reversing-sub-arrays/ */
+class Solution {
+    public boolean canBeEqual(int[] target, int[] arr) {
+        HashMap<Integer,Integer> map=new HashMap<>();
+        for(int x:target)
+            map.put(x,map.getOrDefault(x,0)+1);
+        for(int y:arr)
+            map.put(y,map.getOrDefault(y,0)-1);
+        for(int cx:map.values())
+            if(cx!=0)
+                return false;
+        return true;
+        
+    }
+}
